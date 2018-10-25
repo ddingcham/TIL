@@ -65,3 +65,32 @@ List<String> names;
 
 * 테스트 통과
 * 리팩토링 **프로그래밍 요구사항을 모두 지킬 필요는 없음**
+
+### 기록
+* Test 한 Production 코드들 임시로 테스트 하기 위한 공간 활용 ....temp package에 작성
+
+> 요구사항에 대한 것만 작성한다는 강박관념에 빠질 필요는 없을 것 같음
+
+* [Junit 으로 테스트 코드 작성시 (@Rule public TestName, @Before)](https://stackoverflow.com/questions/1548462/junit-before-only-for-some-test-methods)
+
+> 내 상황에 알맞은 방법은 아닐수도 있지만, Junit의 위대함을 다시 느꼈음
+
+* 확실히 완벽하진 않더라도, 요구사항을 명확하게 정리해 가면서 진행하니까 고민하는 시간이 줄어드는 것을 느낌
+
+> 당장 정리할 수 있는 것과 TDD의 효과를 통해 정의할 수 있는 것에 대한 감각이 필요할 것 같음
+
+* Test Doubles 관련 [출처](https://adamcod.es/2014/05/15/test-doubles-mock-vs-stub.html)
+
+```
+When To Use Test Doubles
+
+There are two schools of thought on Test Doubles: Classical, and Mockist. Put simply, people who use the Classical style only use Test Doubles when there is a compelling reason to do so, such as external dependencies, whilst a Mockist would mock everything, all the time.
+
+The advantage of using the Classical style is that you don't have to worry about internal behaviour of your objects, which is what OOP is all about. When you change an object and it's collaborators your tests will still pass, but this comes at the sacrifice of speed and isolation.
+
+The advantage of using the Mockist style is that your tests are isolated and can run much faster, but at the sacrifice of coupling your tests to the internal behaviour of your objects and their collaborators.
+
+At this point, no one way is the right way. Like all decisions in software development, it's up to you to use your judgement and select whatever method feels most appropriate for the given situation. Hopefully this post will have given you a solid foundation in the tools available to you, allowing you to make an informed decision next time you find yourself needing a Collaborator in a test.
+```
+
+> 테스트 코드 리팩토링 시 적용
