@@ -120,3 +120,17 @@ At this point, no one way is the right way. Like all decisions in software devel
 * 입력 / 출력 프로그램 리팩토링
 * 도메인 모델 다시 생각해보기
 * 각각의 리팩토링 과정에서의 테스트 코드 재작성
+
+### 기록
+* 다시 고민해봐야 할 주제 _ 내가 TDD 연습을 하는 이유 (중요하지만, 관건은 아님)
+
+> [테스트 상태인 Private 메소드를 Public메소드로 변환시 Unit Testing은 어떻게 해야하나?](https://www.slipp.net/questions/253)
+
+> 리팩토링 시의 고려사항 또는 후의 코드 상태 평가 기준으로 생각해볼 필요가 있을 듯
+
+> 특히 [**dongkuk** 님의 답변](https://www.slipp.net/questions/253#answer-980)
+이 인상 깊게 느껴진다.
+
+> [관련 글](https://www.slipp.net/wiki/pages/viewpage.action?pageId=6160426)
+
+> 어떤 상황에서 이런 판단을 내리신 건지 생각해볼 것
