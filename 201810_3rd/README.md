@@ -128,9 +128,25 @@ At this point, no one way is the right way. Like all decisions in software devel
 
 > 리팩토링 시의 고려사항 또는 후의 코드 상태 평가 기준으로 생각해볼 필요가 있을 듯
 
-> 특히 [**dongkuk** 님의 답변](https://www.slipp.net/questions/253#answer-980)
+> 특히 [dongkuk 님의 답변](https://www.slipp.net/questions/253#answer-980)
 이 인상 깊게 느껴진다.
 
-> [관련 글](https://www.slipp.net/wiki/pages/viewpage.action?pageId=6160426)
+> [관련 예시-자바지기님의 시도 기록](https://www.slipp.net/wiki/pages/viewpage.action?pageId=6160426)
 
-> 어떤 상황에서 이런 판단을 내리신 건지 생각해볼 것
+> 어떤 상황에서 이런 판단을 내리신 건지 생각해볼 것 // 재사용 관점에서 분리, 가독성 관점에서 분리
+
+> 각각의 분리 케이스에 따라 각각 다른 목적을 갖고 각각 다른 결과가 나올 것 같다.
+
+> 목적에 대한 것은 지금 내가 어떤 요구사항에 얽힌 작업을 하고 있는 지 // 미래에 요구사항이 어떻게 변할지
+
+> 내가 작업한 것이 미래에 어떤 사이드 이팩트를 발생 시킬지
+
+> 덧붙여서 [양완수님의 okkycon 2018 repository](https://github.com/yangwansu/okkycon2018)
+ 가 주는 메시지를 파악하는 것도 다시 시도하게 되었다.
+ 
+## 20181027
+### 계획
+* 현재 코드 상황에서 개선해야 될 사항들 찾기
+
+### 기록
+* 개선 사항 찾으면서 기준이 필요하다고 생각 되어서 리팩토링 관련 책을 다시 읽기로 하고, 정리중 .....
