@@ -183,5 +183,14 @@ At this point, no one way is the right way. Like all decisions in software devel
  * 굳이 LadderConnection으로 역할을 나누는 것 보다
  * LadderRow가 그 역할을 수행 하는 것이 더 알기 쉽다고 판단
  */
- 
  ```
+
+ * 개선 사항 2 Player 와 LadderRow 간 부적절한 친밀 여부
+ 
+> Change Bidirectional Association to Unidirectional
+
+```
+Player가 주도권을 갖는지 확인
+```
+
+ * 개선 사항 3 메시지를 주고 받을 때 원시값을 래핑한 LadderPosition 사용하는 지 확인
