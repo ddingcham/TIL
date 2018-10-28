@@ -170,3 +170,18 @@ At this point, no one way is the right way. Like all decisions in software devel
 	[정리 내용 링크](https://github.com/ddingcham/TIL/blob/master/201810_3rd/Bad_Smell.md)
 
 ### 기록
+
+* 개선 사항 1 LadderConnection
+
+```
+/*
+ * boolean connected => 가로 선의 각 칸의 연결 여부를 래핑
+ * 굳이 할 필요 없을 수도..
+ * boolean primitive 자체가 두 가지 케이스만을 보장하니까 ...
+ * 외부에서 호출하는 generate() 와 isConnected(), connected(), unConnected()
+ * ,next() 4가지 모두 래핑에 대한 목적과 역할이 희미해진 상태라고 보임 
+ * 굳이 LadderConnection으로 역할을 나누는 것 보다
+ * LadderRow가 그 역할을 수행 하는 것이 더 알기 쉽다고 판단
+ */
+ 
+ ```
