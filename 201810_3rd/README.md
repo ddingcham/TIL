@@ -163,3 +163,10 @@ At this point, no one way is the right way. Like all decisions in software devel
 >> 몇 몇 코드들이 테스트 코드를 다시 작성하려고 하거나,  
 >> 파라미터에 대해서 어디까지 알게 하여야 할 지 결정하기가 어려웠음  
 >> 느낌 가는 대로 한 부분들이 그런 것 같음
+
+## 20181028
+### 계획
+* 개선 사항에 대한 기준을 위해 리팩토링 책의 Bad Smell 부분 정리
+	[정리 내용 링크](https://github.com/ddingcham/TIL/blob/master/201810_3rd/Bad_Smell.md)
+
+### 기록

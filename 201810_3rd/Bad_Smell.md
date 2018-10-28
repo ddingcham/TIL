@@ -1,5 +1,6 @@
-#### Bad Smell 관련 [참고 서적](https://wikidocs.net/book/55)
+#### 리팩토링 책 Bad Smell 정리 [참고 자료](https://wikidocs.net/book/55)
 ##### 개선사항 찾기 전 나쁜 냄새에 대한 복습
+##### 냄새를 먼저 찾고 그 상황에서의 리팩토링 기법들에 대해 다시 공부할 예정
 ##### 읽으면서 **객체 지향 생활 체조 원칙**이 왜 그런 가이드를 제시하는 지 생각
 
 * 중복 코드
@@ -131,4 +132,214 @@
 >> 가장 기본적인 규칙은 **같이 변하는 것**을 모으는 것  
 >> 
 > 이런 예외의 경우는 동작을 옮겨서 한 곳에서만 변하도록 한다.
->> Strategy 와 Visitor는 인디렉션을 사용하여 몇 몇 기능을 독립시킴으로써, 동작을 쉽게 변경
+>> Strategy 와 Visitor는 **인디렉션?**을 사용하여 몇 몇 기능을 독립시킴으로써, 동작을 쉽게 변경
+
+* 데이터 덩어리
+
+> 데이터 아이템은 아이들과 같아서 몰려 다니기를 좋아한다.  
+> 함께 몰려다니는 데이터의 무리는 그들 자신의 객체로 만들어져야 한다.  
+> 1. 필드로 나타나는 덩어리들이 있는 곳을 찾는 것이다.  
+>> 이 덩어리를 객체로 바꾸기 위해 이 필드들에 대해 Extract Class 를 사용한다.  
+> 2. 관심을 메소드 시그니처로 돌려 Introduce Parameter Object 나 Preserve Whole Object 사용
+>> 파라미터 리스트의 단순화
+
+* 기본 타입에 대한 강박관념
+
+> 레코드 타입은 데이터를 구조화하여 의미 있는 그룹으로 만들 수 있게 한다.  
+>> 레코드는 항상 어느 정도의 오버헤드를 갖기에,  
+> 한 두가지 데이터들을 위해 생성하려 할 때는 좀 거북할 수도 있다.  
+> 
+> 하지만 객체의 유용한 점 중 하나는  
+> 기본 타입과 레코드 타입의 경계를 흐리게 하거나 아예 없애버리는 것이다.  
+>> 모든 원시값과 문자열을 포함한다._ 객체지향 생활 체조 원칙  
+>> 일급 콜렉션 _ 객체지향 생활 체조 원칙
+
+> 객체를 처음 접하는 사람은 작은 작업을 위해 작은 객체를 사용하는 것을 꺼린다.  
+>> 수와 화폐 단위를 묶는 Money 클래스  
+>> 상한이나 하한을 가지는 Range 클래스  
+>> 전화번호나 우편번호 같은 특별한 문자열을 위한 클래스
+
+> 각각의 데이터 값에 대해 Replace Data Value with Object
+
+> 데이터 값이 타입 코드이고, 값이 동작에 영향을 미치지 않는다면  
+>> Replace Type Code with Class  
+>> Replace Type Code with State / Strategy 를 이용
+
+> 항상 몰려다녀야 할 필드 그룹이 있다면 Extract Class
+>> ____Name [firstName, secondName]
+
+> 파라미터 리스트 상에서의 기본 타입  
+>> Introduce Parameter Object
+
+> 배열을 쪼개서 쓰고 있는 자신을 발견 !!!!  
+>> Replace Array with Object  // 일급 콜렉션
+
+* Switch 문
+
+> 객체지향 코드의 가장 명확한 특징 중 하나는 switch 문이 비교적 적게 쓰인다는 것 !  
+>> Polymorphism 고려하기
+
+> Extract Method 로 switch 문을 뽑아내고 Move Method를 사용하여 다형성 대상 클래스로
+
+> 이 시점에서 Replace Type Code with "Subclasses" / "State / Strategy" 사용할 지 결정
+
+> 상속 구조를 결정했으면 Replace Conditional with polymorphism 을 사용 가능
+
+> 만약 하나의 메소드에만 영향을 미치는 몇 개의 경우가 있다면 굳이 바꿀 필요가 없다.
+>> **다형성이 과한 케이스** => Replace Parameter with Explicit Methods 가 적절
+
+> 조건중 null 이 있는 경우가 있으면 [Introduce Null Object](https://scrutinizer-ci.com/docs/refactorings/introduce-null-object)를 사용
+
+* 평행 상속 구조
+
+> 평행 상속 구조는 산탄총 수술의 특별한 경우  
+>> 한 클래스의 서브 클래스를 만들면, 다른 곳에도 모두 서브 클래스를 만들어 주어야 한다.
+
+> 한 쪽 상속 구조에서 클래스명의 접두어가 다른 쪽 상속 구조의 클래스명의 접두어와 같다면
+>> **냄새 발생**  
+>> 중복을 제거하는 일반적인 전략  
+>> 한 쪽 상속 구조의 인스턴스가 다른 쪽 구조의 인스턴스에 의존토록 리팩토링  
+>> Move Method 와 Move Field를 사용하면 참조하는 쪽의 상속구조가 사라짐
+
+* 게으른 클래스
+
+> 클래스를 생성할 때마다 그것을 유지하고, 이해하기 위한 비용이 발생한다.  
+>> 이 비용을 감당할 만큼 충분할 일을 하지 않는 클래스는 삭제되어야 한다.  
+>> // 정말 많은 고민을 하고, 경험을 해야 할 듯  
+>> [관련 내용](https://www.slipp.net/questions/589)
+
+> 별로 하는 일도 없는 클래스의 서브 클래스가 있다면 Collapse Hierarchy를 사용하라  
+> 거의 필요 없는 클래스에 대해서는 Inline Class (Anonymous)를 적용해야 한다
+
+* 추측성 일반화 // **진짜 중요한 거** : TDD의 원칙 테스트 코드가 통과할 만큼만 구현  
+   [같이 읽어야 할 글](http://woowabros.github.io/study/2018/03/05/sdp-sap.html)
+
+> "언젠가 이런 종류의 일을 처리하기 위한 기능이 필요하다고 생각하는데"  
+> 필요하지도 않는 것을 처리하기 위해  
+> 모든 종류의 갈고리와 특별한 상자를 원할 때 발생하는 냄새
+
+> 별로 하는 일이 없는 추상 클래스가 있으면
+>> Collapse Hierarchy 사용
+
+> 불필요한 위임(delegation)은 inline Class로 제거
+
+> 메소드에 사용되지 않는 파라미터가 있다면 Remove Parameter
+
+> 메소드 이름이 이상하고 추상적일 때는 Rename Method 로 구체화
+
+> 적절한 기능을 이용하는 테스트 케이스에 대한 helper method / class 의 경우엔 남기기
+
+* 임시 필드
+
+> 어떤 객체 안의 인스턴스 변수가 특정 상황에서만 세팅되는 경우  
+>> 보통 객체의 모든 변수가 유효한 값을 가지고 있을 거라고 기대함  
+>> 유효한 값에 대한 보장이 없다면, 코드는 이해하기 어려워짐
+
+> 고아 변수들을 위한 집을 만들기 위해
+>> Extract Class : 고아 변수를 사용하는 모든 코드를 새로 만든 클래스로 이동
+
+> 변수의 값이 유효하지 않는 경우에 대한 대체 컴포넌트 (alternative component)를  
+> 만들기 위해 Introduce Null Object를 이용 -> 조건문 포함 코드 제거 가능
+
+> 임시 필드는 복잡한 알고리즘이 여러 변수를 필요로 할 때 흔히 나타난다.
+>> 필요한 변수와 메소드를 묶어 Extract Class  
+>> 새로운 객체는 메소드 객체(method object)가 된다.
+
+* 메시지 체인
+
+> "getThis / 임시 변수" 시퀀스는 클라이언트가 클래스 구조와 결합되 있다는 것을 뜻함
+
+> Hide Delegate를 사용한다. // 체인의 여러 지점에서 적용 가능
+>> [낮은 결합도 / 높은 응집도](https://zetawiki.com/wiki/%EC%9D%91%EC%A7%91%EB%8F%84,_%EA%B2%B0%ED%95%A9%EB%8F%84,_%EB%86%92%EC%9D%80_%EC%9D%91%EC%A7%91%EB%8F%84%2B%EB%82%AE%EC%9D%80_%EA%B2%B0%ED%95%A9%EB%8F%84)  
+>
+> 원칙적으로는 체인 내의 모든 객체에 적용할 수 있지만,  
+> 종종 중간에 있는 모든 객체를 미들 맨(Middle Man)으로 만드는 결과를 초래할 수 있음  
+>> 시퀀스 대상을 사용하는 코드의 조각을 취해 Extract Method 적용 가능 여부를 확인하고,  
+>> Move Method 를 통해 체인의 밑으로 밀어 넣는다.
+
+* 미들 맨
+
+> 객체의 주요 특징 중 하나인 Encapsulation (내부 세부 사항을 외부로부터 숨김)은  
+> 보통 Delegation과 함께 사용된다.
+
+> 클래스의 인터페이스를 보니 메소드의 태반이 다른 클래스로 위임하고 있다면,  
+>> Remove Middle Man 을 사용하여,  
+>> 그 객체에 실제로 뭐가 어떻게 되어가고 있는지 알게 해줄 때
+
+> 몇 몇 메소드가 많은 일을 하지 않는다면  
+>> Inline Method를 사용하여  
+>> 호출하는 곳에 코드를 삽입할 수 있다.
+
+> 추가 동작이 있다면,  
+>> Replace Delegation with Inheritance를 사용하여  
+>> 미들맨을 서브 클래스로 바꿀 수도 있다
+
+* 부적절한 친밀
+
+> 때로는 클래스가 지나치게 친밀하게 되어 서로 사적인 부분을 파고드느라 너무 많은 시간을 소모
+
+> Move Method 와 Move Field 를 사용하여 조각으로 나누고 친밀함을 줄여야 한다.
+
+> Change Bidirectional Association to Unidirectional 이 적용 가능한 지 확인
+>> // 요구사항에 대한 의미적, 기능적, 구조적 해석을 통해 연관 관계의 기준 정립
+
+> 이들 클래스 간 공통 관심사가 있다면,  
+>> Extract Class를 사용하여  
+>> 공통된 부분을 안전한 곳으로 빼내서 별도의 클래스를 만들어라
+>  
+>> Hide Delegate 를 사용하여 다른 클래스가 중개하도록 하라
+
+> 상속은 종종 과도한 친밀을 유도할 수 있다.  
+> 함께 확인 ([Composition over Inheritance 에 대해 자칫 오해를 줄 수 있는 글](http://javacan.tistory.com/entry/Composition-over-Inheritance-%EC%97%90-%EB%8C%80%ED%95%B4-%EC%9E%90%EC%B9%AB-%EC%98%A4%ED%95%B4%EB%A5%BC-%EC%A4%84-%EC%88%98-%EC%9E%88%EB%8A%94-%EA%B8%80))
+>> 만약 상속 관계를 분리 시키려면   
+>> Replace Inheritance with Delegation을 적용
+
+* 다른 인터페이스를 가진 대체 클래스
+   [같이 읽어야 할 글](http://woowabros.github.io/study/2018/03/05/sdp-sap.html)
+
+> 같은 작업을 하지만 다른 시그니처를 가지는 메소드에 대해
+>> Rename Method
+
+> Rename Method 만으로 부족하다면 ?  
+> 클래스가 여전히 충분한 작업을 하지 않는 다는 신호
+>> 프로토콜이 같아질 때 까지  
+>> Move Method 로 동작을 이동
+
+> 너무 많은 코드를 옮겨야 할 때에는  
+> 목적(같은 작업에 대한 시그니처/인터페이스 정규화?)를 이루기 위해
+>> Extract Superclass
+
+* 불완전한 라이브러리 클래스
+
+> 라이브러리 (레거시가 될 수도 ...)가 종종 나쁜 형태이고,  
+> 수정하는 것이 거의 불가능한 경우 문제가 복잡해짐
+
+> 라이브러리 클래스가 가지고 있었으면 하는 메소드에 대해서
+>> Introduce Foreign Method
+
+> 별도의 메소드 (동작)이 잔뜩 있다면
+>> Introduce Local Extension 이 필요
+
+* 데이터 클래스
+
+> 필드와 각 필드에 대한 get/set 메소드만 가지고, 다른 것은 아무 것도 없는 클래스  
+> public 필드만 갖는 거나 마찬가지 // 객체라기 보다는 걍 데이터 구조체처럼
+
+> Encapsulate Field 적용
+ 
+> 만약 Collection 필드를 가지고 있다면,
+>> 적절히 캡슐화되어 있는지 확인  
+>> = Encapsulate Collection 확인
+
+> 값이 변경되면 안되는 필드에 대해서는 Remove setting Method를 사용
+
+> get/set 메소드가 다른 클래스에서 사용되는 지 찾고,
+>> Move Method를 시도해  
+>> 동작을 데이터 클래스로 올긴다.
+
+> 메소드 전체를 옮길 수 없을 때는 
+>> Extract Method를 사용하여  
+>> 옮길 수 있는 부분만 메소드로 분리  
+>> // 테스트하기 쉬운 코드와 테스트 하기 어려운 코드의 분리 : OkkyCon 이규원님 세미나  
+>> 잠시후에 get/set 메소드에 대해 Hide Method가 가능
+
