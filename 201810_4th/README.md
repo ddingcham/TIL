@@ -1,5 +1,15 @@
 # 201810_4th
-## [·Î¶Ç °ÔÀÓ TDD ¿¬½À](https://github.com/ddingcham/lotto)
-* ±âº» TDD cycle ¿¬½À **Red-Green-Refactor**
-* °´Ã¼ÁöÇâ »ýÈ°Ã¼Á¶
-* [¾Ë¸®¹Ù¹Ù ÄÚµù °¡ÀÌµå](https://github.com/ddingcham/Alibaba-Java-Coding-Guidelines)
+## [ë¡œë˜ ê²Œìž„ TDD ì—°ìŠµ](https://github.com/ddingcham/lotto)
+* ê¸°ë³¸ TDD cycle ì—°ìŠµ **Red-Green-Refactor**
+* ê°ì²´ì§€í–¥ ìƒí™œì²´ì¡°
+* [ì•Œë¦¬ë°”ë°” ì½”ë”© ê°€ì´ë“œ](https://github.com/ddingcham/Alibaba-Java-Coding-Guidelines)
+
+## 20181023
+### ê³„íš
+* step 1 ìš”êµ¬ì‚¬í•­ ì •ë¦¬
+* step 1 ì§„í–‰ 
+
+### ê¸°ë¡
+* ë¸Œëžœì¹˜ ê´€ë¦¬í•˜ë©´ì„œ ì§„í–‰í•˜ê¸°ë¡œ í•¨
+
+> [ì°¸ê³ ](https://www.slipp.net/questions/9)
