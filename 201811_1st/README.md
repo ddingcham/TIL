@@ -23,5 +23,6 @@ TDD 토이 프로젝트 리팩토링 중 학습 필요성을 느껴서 조영호
 ## 20181110
 ### 계획
 * 1. VALUE OBJECT와 REFERENCE OBJECT
+* VALUE OBJECT와 REFERENCE OBJECT 관점에서 로또 
 
 ### 기록
