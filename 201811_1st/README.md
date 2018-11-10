@@ -18,12 +18,14 @@ TDD 토이 프로젝트 리팩토링 중 학습 필요성을 느껴서 조영호
 
 ### 기록
 
-#--------졸작발표준비--------
+# --------졸작발표준비--------
 
 ## 20181110
 ### 계획
 * 1.VALUE OBJECT와 REFERENCE OBJECT
-* VALUE OBJECT와 REFERENCE OBJECT 관점에서 로또 
-* 2.AGGREGATE와 REPOSITORY 2부까지 // AGGREGATE에 대한 기본적인 
+* VALUE OBJECT와 REFERENCE OBJECT 관점에서 로또 리팩
+* 2.AGGREGATE와 REPOSITORY 2부까지 // AGGREGATE에 대한 기본적인 이해
 
 ### 기록
+* 점 점 Mayak 리팩토링을 어떻게 해 나갈 지에 대한 감이 잡혀간다.  
+* 새롭게 알게 된 도메인 분석과 개념들을 적용할 생각 떄매 공부가 재밌어짐. 조영호님 감사합니다.  
