@@ -11,3 +11,4 @@
 * [리팩토링-나쁜 냄새 정리](https://github.com/ddingcham/TIL/blob/master/201810_3rd/Bad_Smell.md)
 * [2018104th 로또게임](https://github.com/ddingcham/TIL/tree/master/201810_4th)
 * [조영호님의 "Domain Driven-Design 적용 시리즈" 1부](https://github.com/ddingcham/ORMWithDDD/tree/master/demo/doc/1.VALUE%20OBJECT%20%26%20REFERENCE%20OBJECT)
+* [조영호님의 "Domain Driven-Design 적용 시리즈" 2부](https://github.com/ddingcham/ORMWithDDD/tree/master/demo/doc/2.AGGREGATE-%20REPOSITORY)
