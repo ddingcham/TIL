@@ -41,3 +41,11 @@ TDD 토이 프로젝트 리팩토링 중 학습 필요성을 느껴서 조영호
 
 * 학습 진행을 위해 Spring Boot 기반으로 예제 코드 바꿔야겠음  
 
+## ------------예비군------------
+
+## 20181115
+### 계획
+* 3.Dependency Injection 과 Aspect Oriented Programming 3,4,5부
+
+### 기록
+* AOP - LTW 적용은 ORM 활용하면서  
