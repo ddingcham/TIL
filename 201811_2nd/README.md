@@ -51,3 +51,8 @@ TDD 토이 프로젝트 리팩토링 중 학습 필요성을 느껴서 조영호
 * AOP - LTW 적용 설정 java code 버전  
  * [java 기반 AOP - AspectJ - LTW](https://github.com/ddingcham/ORMWithDDD/commit/20eb282b97d51f46cc172fab5064da8285d8e387)  
  * 단, 이 때도 JVM 실행시 LTW를 위한 javaagent 옵션 설정은 필수이다. // spring-instrument 적용
+
+* 어노테이션 과 POJO
+ * [코드의 미학과 DI Inversion](http://toby.epril.com/?p=974) // Toby님 블로그  
+ * [XML vs. annotations: which is better in Spring? Why?](https://www.quora.com/XML-vs-annotations-which-is-better-in-Spring-Why)
+ 이거 두개 읽고 생각 한 
