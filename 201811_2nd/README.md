@@ -48,4 +48,6 @@ TDD 토이 프로젝트 리팩토링 중 학습 필요성을 느껴서 조영호
 * 3.Dependency Injection 과 Aspect Oriented Programming 3,4,5부
 
 ### 기록
-* AOP - LTW 적용은 ORM 활용하면서  
+* AOP - LTW 적용 설정 java code 버전  
+ * [java 기반 AOP - AspectJ - LTW](https://github.com/ddingcham/ORMWithDDD/commit/20eb282b97d51f46cc172fab5064da8285d8e387)  
+ * 단, 이 때도 JVM 실행시 LTW를 위한 javaagent 옵션 설정은 필수이다. // spring-instrument 적용
