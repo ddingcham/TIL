@@ -46,13 +46,16 @@ TDD 토이 프로젝트 리팩토링 중 학습 필요성을 느껴서 조영호
 ## 20181115
 ### 계획
 * 3.Dependency Injection 과 Aspect Oriented Programming 3,4,5부
+* 3.Dependency Injection 과 Aspect Oriented Programming 6,7부  
+  * java 코드 기반 설정  
+* 4.ORM과 투명한 영속성 1,2부
 
 ### 기록
 * AOP - LTW 적용 설정 java code 버전  
- * [java 기반 AOP - AspectJ - LTW](https://github.com/ddingcham/ORMWithDDD/commit/20eb282b97d51f46cc172fab5064da8285d8e387)  
- * 단, 이 때도 JVM 실행시 LTW를 위한 javaagent 옵션 설정은 필수이다. // spring-instrument 적용
+  * [java 기반 AOP - AspectJ - LTW](https://github.com/ddingcham/ORMWithDDD/commit/20eb282b97d51f46cc172fab5064da8285d8e387)  
+  * 단, 이 때도 JVM 실행시 LTW를 위한 javaagent 옵션 설정은 필수이다. // spring-instrument 적용
 
 * 어노테이션 과 POJO
- * [코드의 미학과 DI Inversion](http://toby.epril.com/?p=974) // Toby님 블로그  
- * [XML vs. annotations: which is better in Spring? Why?](https://www.quora.com/XML-vs-annotations-which-is-better-in-Spring-Why)
- 이거 두개 읽고 생각 한 
+  * [코드의 미학과 DI Inversion](http://toby.epril.com/?p=974) // Toby님 블로그  
+  * [XML vs. annotations: which is better in Spring? Why?](https://www.quora.com/XML-vs-annotations-which-is-better-in-Spring-Why)
+    이거 두개 읽고 생각 정리
