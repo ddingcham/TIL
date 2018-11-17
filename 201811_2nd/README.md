@@ -128,7 +128,7 @@ TDD 토이 프로젝트 리팩토링 중 학습 필요성을 느껴서 조영호
   
 ## 20181117
 ### 계획
-* 4.ORM과 투명한 영속성 4,5,6,7,8부  
+* 4.ORM과 투명한 영속성 4,5,6부  
 * jojoldu님 블랙잭코드   
 
 ### 기록
@@ -148,4 +148,8 @@ https://stackoverflow.com/questions/646897/object-integrity-and-caching-in-a-sta
 * Transaction Isolation Level 정리할   
 https://www.techopedia.com/definition/24042/transaction-isolation-level  
 
-* 연속적인 학습에서의 과정의 
+* 연속적인 학습에서의 과정의 중요성  
+
+* SpringRunner / SpringJUnit4ClassRunner  
+
+* DataJpaTest // auto transaction-rollback  
