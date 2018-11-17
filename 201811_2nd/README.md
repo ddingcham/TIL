@@ -137,3 +137,13 @@ TDD 토이 프로젝트 리팩토링 중 학습 필요성을 느껴서 조영호
     > 소프트웨어 문제의 본질을 다루는 도전,  
     > 즉 복잡한 개념적 구조를 체계화하는 것을 우선적으로 고려해야 한다.  
     > 이걸 경험해보자
+
+* ORM, DDD에서의 REPOSITORY, 1차 캐시 관련해서 정리할 거
+https://stackoverflow.com/questions/2963819/why-use-your-application-level-cache-if-database-already-provides-caching
+https://stackoverflow.com/questions/3029952/ddd-and-mvc-difference-between-model-and-entity/4928524#4928524
+https://stackoverflow.com/questions/646897/object-integrity-and-caching-in-a-stateful-client/646900#646900
+ * persistence 관점에서는 성능
+ * 클라이언트 입장에서 성능을 위한 고려 대상으로 삼는건 X
+
+* Transaction Isolation Level 정리할   
+https://www.techopedia.com/definition/24042/transaction-isolation-level
