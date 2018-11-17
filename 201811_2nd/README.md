@@ -146,4 +146,6 @@ https://stackoverflow.com/questions/646897/object-integrity-and-caching-in-a-sta
  * 클라이언트 입장에서 성능을 위한 고려 대상으로 삼는건 X
 
 * Transaction Isolation Level 정리할   
-https://www.techopedia.com/definition/24042/transaction-isolation-level
+https://www.techopedia.com/definition/24042/transaction-isolation-level  
+
+* 연속적인 학습에서의 과정의 
