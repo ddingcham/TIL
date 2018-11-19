@@ -4,7 +4,7 @@
 2. TDD를 통한 테스트와 리팩토링 과정 연습(매몰되지 말자)  
     https://tmblr.co/ZjmSTo1AWYXZT
 
-## 20181117
+## 20181118
 
 ### 계획
 
@@ -38,3 +38,14 @@ https://www.techopedia.com/definition/24042/transaction-isolation-level
 * SpringRunner / SpringJUnit4ClassRunner  
 
 * DataJpaTest // auto transaction-rollback 
+
+
+## 20181119
+
+### 계획
+
+* 공공 데이터를 가지고 서비스를 만들어보자 _ 브레인스토밍  
+
+### 기록
+
+
