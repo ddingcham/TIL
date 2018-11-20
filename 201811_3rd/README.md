@@ -55,6 +55,7 @@ https://www.techopedia.com/definition/24042/transaction-isolation-level
 ### 계획
 
 * Spring Boot Batch 활용해보기  
+* [SPring Boot Batch Guide _ Jojoldu님](https://github.com/ddingcham/SpringBootToy/wiki/Batch-JojolduGuide)
 
 ### 기록  
-* 
+* Spring Boot Batch Guide : JVM argument로 AWS EC2에 있는 Mysql 계정정보 넣어서 실습함
