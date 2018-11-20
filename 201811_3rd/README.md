@@ -45,7 +45,16 @@ https://www.techopedia.com/definition/24042/transaction-isolation-level
 ### 계획
 
 * 공공 데이터를 가지고 서비스를 만들어보자 _ 브레인스토밍  
+* spring boot 기반 어플리케이션 이것 저것 건들기
 
 ### 기록
 
 
+## 20181120
+
+### 계획
+
+* Spring Boot Batch 활용해보기  
+
+### 기록  
+* 
