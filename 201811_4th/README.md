@@ -124,7 +124,7 @@
          * 방식  
            * 평점을 **벡터**로 생각  
            * **2개 벡터**사이의 각도를 계산  
-           * **그 각도가 작을수록 가까이 있기 때문에 유사하다고 판단 **
+           * **그 각도가 작을수록 가까이 있기 때문에 유사하다고 판단**
      
   * Collaborative Filtering 기반 추천 시스템 평가  
   
@@ -156,3 +156,17 @@
     많은 연구자들과 기업에서 Collaborative Filtering을 연구하고 있기 때문에 앞으로 더욱 발전된 방법들이 우리 앞에 나타날 것
     ```
     // Java 플랫폼에서의 추천 솔루션 생각해보기  
+
+
+* 추가적인 자료들  
+  * [추천 시스템 분석 - 어떻게 아마존과 넷플릭스 ...](http://blog.kthdaisy.com:8080/recommendation_system_kthdaisy/)  
+    > 예시와 용어/개념  , 특히 **비즈니스 룰**    
+    
+  * [연관 규칙과 가중 선호도...](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.880.308&rep=rep1&type=pdf)  
+    > 논문이라서 작업의 과정을 볼 수 있어서 도움됨  
+  
+  * [최범균님 자료](http://javacan.tistory.com/entry/Programming-CI-Study-ch2-RecommendationSystem)  
+    > 생각할 거리들과 예시, 그리고 코드 도 볼 수 있음  
+    
+  * [메타데이터의 현재와 미래](https://blog.lgcns.com/700)  
+    > 메타데이터라는 걸 정확히 집고 넘어갈 필요가 있음 // 추가적인 조사 필요  
