@@ -59,3 +59,7 @@ https://www.techopedia.com/definition/24042/transaction-isolation-level
 
 ### 기록  
 * Spring Boot Batch Guide : JVM argument로 AWS EC2에 있는 Mysql 계정정보 넣어서 실습함
+
+
+# 해커톤 준비
+
