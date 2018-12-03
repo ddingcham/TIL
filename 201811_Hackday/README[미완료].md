@@ -64,7 +64,9 @@ A->B 돈을 보내는거에요..
 * 토큰과 회원정보에 대한 분리  
 > OAuth, JWT  
 
-* 
+* Circuit Breaker
+> 장애에 대한 대비책 중 하나  
+
 
 ## 도구
 * SonarQube  
