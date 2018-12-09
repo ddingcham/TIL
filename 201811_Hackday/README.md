@@ -73,6 +73,7 @@
   * Connection pool 이슈  
     ex) 실제 요청을 처리하기 위해 RestTemplate 사용할 때 발생할 수 있는 이슈  
     ex) DB Connection Pool 효율적으로 사용하려면 ?  
+        > Spring Batch의 chunk, writer 부분을 가지고 경험해보기.  
 
   * 상황 별로 비동기 / 동기 어떤 것이 더 적합한 처리 방식일지  
 
