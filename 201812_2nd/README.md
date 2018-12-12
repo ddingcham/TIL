@@ -302,4 +302,41 @@ So we write this with cautious optimism. So far, we've seen enough about the mic
 
 ### 기록
 1. [생각해 볼 만한 글 (동의, 반대 둘 다 들었음)](https://okky.kr/article/398140)  
-2. [ORM 성능 개선 정리](https://github.com/ddingcham/TIL/blob/master/201812_2nd/ORM_%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0.md)    
+2. [ORM 성능 개선 정리](https://github.com/ddingcham/TIL/blob/master/201812_2nd/ORM_%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0.md)  
+3. JPQL 기반 fetch join 적용 시 QueryDSL을 활용하기  
+   * QueryDSL 미적용 시 JPQL이 틀릴 수 있다.  
+   ```
+   @Query("select DISTINCT store from Store store join fetch store.reservations reservation where reservation.activated = 'true'")
+   Store findByIdWithActiveReservation(long id);
+   ```
+   * QueryDSL을 적용하면 Entity Type 기반으로 fetch join이 적용된 JPQL을 생성할 수 있다.  
+   ```
+   query.from(order)
+   .innerJoin(order.member, member).fetch()
+   .leftJoin(order.orderItem, orderItem).fetch()
+   .list(order)
+   
+   위의 코드를 갖고 있는 method가 Repository에 선언한 메소드에 의해 호출된다.  
+   ```
+   
+   * 자세한 사항은 스프링 공식 레퍼런스랑 아래 자료를 토대로 확인  
+     * [그 외 여러가지 활용할 만한 케이스가 많다.](https://ultrakain.gitbooks.io/jpa/chapter10/chapter10.4.html)  
+     * [예제가 많아 실제로 적용하게 될 때 학습하기 좋을 자료](http://adrenal.tistory.com/23?category=301635)  
+       > 안개가 겉힌다는 표현이 내가 했던 생각이랑 똑같다.  
+       
+   * MyBatis랑 비교  
+     ```
+     JPA 기반에서는 도메인을 단순하게 관리할 수 있는 대신  
+     MyBatis보다 다양한 것들을 학습해야 한다.  
+     하지만 도메인(Entity)를 격리시킨 상태에서, 지속적으로 개선해 나갈 수 있기에  
+     어려워도 학습할 만한 가치가 있는 것 같다.  
+     (또 자료를 보니깐 생각보다 모든 부분을 다 알아야 하는 상황이 많이 나오지도 않은 것 같다.)  
+     
+     그리고 어차피 Entity가 엄청나게 커질 일도 없을 것 같다.  
+     해당 Entitiy가 사용되는 서비스 자체가 분할되고 있기 때문이다.  
+     
+     요즘 많이 쓰는 프레임워크나 기술, 사상들은
+     작은 단위로 나눌 수 있고, 필요한 부분만 빠르게 적용하고
+     작아진 만큼 빠르게 만들고, 빠르게 개선할 수 있는
+     그런 게 트렌드인 것 같다.
+     ```
