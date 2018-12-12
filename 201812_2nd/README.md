@@ -63,6 +63,7 @@ Study/acmicpc 폴더에 보면 작년 봄/여름 동안 풀었던 알고리즘 �
 > 이 정도는 센스로 찾기  
 
 3. [MartinFowler 블로그 Microservice](https://martinfowler.com/articles/microservices.html) 읽고 내맘대로 정리한거  
+화면 반 잘라서 보면 딱 맞음  
 ```
 Microservices
 
@@ -295,3 +296,10 @@ One reasonable argument we've heard is that you shouldn't start with a microserv
 
 So we write this with cautious optimism. So far, we've seen enough about the microservice style to feel that it can be a worthwhile road to tread. We can't say for sure where we'll end up, but one of the challenges of software devleopment is that you can only make decisions based on the imperfect information that you currently have to hand.
 ```
+
+## 20181212
+### 계획
+
+### 기록
+1. [생각해 볼 만한 글 (동의, 반대 둘 다 들었음)](https://okky.kr/article/398140)  
+2. [ORM 성능 개선 정리](https://github.com/ddingcham/TIL/blob/master/201812_2nd/ORM_%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0.md)    
