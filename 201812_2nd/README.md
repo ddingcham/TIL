@@ -357,5 +357,6 @@ JPA(HIbernate)에 대한 의존을 어느 Layer에서 끊어야 하나
 ```
 되게 구현을 할 수는 있지만 어떤 원칙을 가져가야 하나  
 
-[Open Session In View Pattern](https://github.com/ddingcham/ORMWithDDD/tree/master/demo/doc/OpenSessionInViewPattern)  K
-[Kinbbode님 블로그](http://kingbbode.tistory.com/27)  
+[Open Session In View Pattern](https://github.com/ddingcham/ORMWithDDD/tree/master/demo/doc/OpenSessionInViewPattern)  
+[Kingbbode님 블로그](http://kingbbode.tistory.com/27)  
+
