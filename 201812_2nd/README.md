@@ -340,3 +340,22 @@ So we write this with cautious optimism. So far, we've seen enough about the mic
      작아진 만큼 빠르게 만들고, 빠르게 개선할 수 있는
      그런 게 트렌드인 것 같다.
      ```
+
+https://github.com/ddingcham/ORMWithDDD/tree/master/demo/doc/OpenSessionInViewPattern
+## 20181214
+### 계획
+
+### 기록
+1. Domain과 고민하게 만드는 문제  
+```
+고민
+Layer가 나눠져있다.  
+Layer들은 도메인(Entity)에 의존한다.
+도메인(Entity)는 비침투적인 infrastructure 위에 떠있다.
+Persistence 관련 비침투적인 infrastructure 인
+JPA(HIbernate)에 대한 의존을 어느 Layer에서 끊어야 하나
+```
+되게 구현을 할 수는 있지만 어떤 원칙을 가져가야 하나  
+
+[Open Session In View Pattern](https://github.com/ddingcham/ORMWithDDD/tree/master/demo/doc/OpenSessionInViewPattern)  K
+[Kinbbode님 블로그](http://kingbbode.tistory.com/27)  
