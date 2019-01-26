@@ -42,6 +42,7 @@ Http Verb (REST_JSON)
 #### 사실 JSON 으로 된 데이터만 있으면 엄청나게 쉬움  
 #### elasticsearch에 벌크하려는 meta와 도큐먼트 구조에 맞게 JSON화 시키는 게 문제일 뿐  
 #### Spring Batch 의 page, chunk 개념이 Spring Data elasticsearch와 어떻게 연동되는지가 중요할 듯  
+> 응 아니야 LogStash도 좋은 솔루션이야  
 
 ## Search  
 
