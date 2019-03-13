@@ -3,7 +3,7 @@
 ## 관련된 배경지식  
 
 * [wiki Concureency \(computer science\)](en.wikipedia.org/wiki/Concurrency_\(computer science\))  
-* [도형님글 thread-safe_보장작업](apploit.egloos.com/5724750)  
+* [도형님글 thread-safe_보장작업](http://egloos.zum.com/aploit/v/5724750)  
   > 동시성 이슈가 발생하지 않을 조건  
   > 쓰레드로 적혀있지만, 조건 자체는 다 똑같음  
 
