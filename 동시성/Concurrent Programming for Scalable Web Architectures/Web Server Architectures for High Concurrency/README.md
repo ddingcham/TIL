@@ -23,3 +23,30 @@ there is also no coordination required between two distinct requests
 * event-driven-model  
 
 ### Summary  
+
+#### The challenge of scalability for web servers is characterized by intense concurreny of HTTP connections  
+
+#### The massive parallelism of I/O-bound operations is thus the primary issue.  
+
+#### various server architectures that provide different combinations  
+* multi-process servers  
+* multi-threaded servers  
+* event-driven servers  
+* combined approaches - such as SEDA  
+
+#### synchronous, blocking I/O model suffers a performance setback when it is used as part of massive I/O parallelism  
+
+#### large numbers of threads is limited by increasing performance penalties  
+> due to thread stack sizes  
+* **permanent context switching**  
+* **memory consumption**  
+
+#### event-driven server architectures   
+* suffer from less comprehensible and understandable programming style  
+* can often not take direct advantage of true CPU parallelism  
+
+#### Combined approaches suggest concepts that incorporate both models  
+
+#### Gaining the benefits of cooperative scheduling and asynchronous/non-blocking I/O operations  
+> 무슨 아키텍쳐를 선택하느냐가 중요한 게 아니라 지금 문제에서 필요한 게 뭔지가 더 중요함  
+
