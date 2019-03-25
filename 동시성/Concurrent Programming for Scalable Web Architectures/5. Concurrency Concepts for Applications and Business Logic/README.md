@@ -64,3 +64,28 @@
 
 
 ## 5.7 Summary  
+
+#### The application logic of modern, large-scale web applications is inherently concurrent  
+> requests are entirely isolated and easy to execute independently  
+
+#### The concept of threads and locks is based on mutable state shared by multiple flows of execution  
+* **choosing the right locking granularity** : too difficult/error-prone    
+  * danger of race conditions : danger of deadlocks  
+  * degenerated sequential execution / unmanageable nondeterminism  
+  
+#### STM : transactional operations for concurrent code  
+* transactions isolate operations on mutable shared state and are lock-free and composable  
+  > must not contain any side effects (no I/O operations)   
+  > 중단-롤백/재실행 을 위해  
+* hiding complexity of transaction handling in a software layer  
+
+#### Actors are separate, single-threaded entities that communicate via immutable,async,guaranteed messaging  
+* isolating mutability of state  
+* message-based, distributed computing  
+
+#### Event-driven architectures evict the danger of deadlocks via single-threaded event loop  
+* sequentially executing each event with its associated event handler(callback)  
+* IoC  
+* **utilizing a single CPU core very well**  
+  > 어플리케이션 요구사항들이 대부분 I/O bound 에 속하고, 복잡한 연산이 필요없는 경우  
+  
