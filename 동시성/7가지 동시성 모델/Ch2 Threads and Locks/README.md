@@ -119,5 +119,20 @@
       ~~~  
 
 * Philosopher -> 데드락 케이스 상황 구현  
-* 동기화 정책 부재 + 내부 최적화 (실행 순서) 로 인한 사이드 이펙트 구현  
+  * **Coffman conditions** : Necessary conditions for deadlock  
+    > [DEADLOCK IN JAVA WITH EXAMPLE](http://www.idc-online.com/technical_references/pdfs/information_technology/Deadlock_in_Java_with_Example.pdf)  
+    * **Mutual Exclusion**  
+      > At least one resource must be held in a non-shareable mode.  
+      > Only one process can use the resource at any given instant of time  
+    * **Hold and Wait** or Resource Holding  
+      > A process is currently holding at least one resource  
+      > and requesting additional resources which are being held by other processes  
+    * **No Preemption**  
+      > The operating system must not de-allocate resources once they have been allocated;  
+      > they must be released by the holding process voluntarily  
+    * **Circular Wait**  
+      > A process must be waiting for a resource which is being held by another process,  
+      > another process is waiting for the first process to release the resource  
+      
+* **동기화 정책 부재 + 내부 최적화 (실행 순서) 로 인한 사이드 이펙트 구현**  
 
