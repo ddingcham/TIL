@@ -1,9 +1,6 @@
 # Threads and Locks  
 
 ## Overview
-
-### Day1  
-
 * 실전 코드에서는 Thread **직접 다룰 일** 없음  
 
 * [first lock](https://github.com/ddingcham/simple-concurrency/commit/d6ad42e31b102f63f47cd8ecaf9c755d4f09bbd0)  
@@ -136,3 +133,56 @@
       
 * **동기화 정책 부재 + 내부 최적화 (실행 순서) 로 인한 사이드 이펙트 구현**  
 
+## Day2 : 내재된 잠금장치(intrinsic lock) 대체  
+#### java.util.concurrent  
+
+#### instrinsic lock의 한계  
+* instrinsic lock를 얻다가 블로킹 상태에 빠지는 경우, 해당 스레드를 원상복귀시킬 방법이 없음  
+* instrinsic lock에 대한 대기 시간 도중에 강제로 중단시킬 방법이 없음  
+* instrinsic lock을 얻는 방식이 synchoronized 뿐  
+  * 공유 자원 잠금  
+    ~~~java
+    void synchronizedMethod() {
+      synchronized(object) {
+        <<공유 자원 사용>>
+      }
+    }
+    ~~~  
+  * 메서드 전체 잠금  
+    * 시그니쳐  
+      ~~~java
+      synchronized void synchronizedMethod() {
+          <<메서드 본문>>      
+      }
+      ~~~  
+    * 메서드 내부 정의  
+      ~~~java
+      void synchronizedMethod() {
+        synchronized(this) {
+          <<메서드 본문>>
+        }
+      }
+      ~~~  
+
+#### ex] [interruptible](https://github.com/ddingcham/simple-concurrency/commit/9535674a123472099928b7c8f5316a164a163978)  
+* 스레드가 instrinsic lock으로 인해 데드락이 되면, 방법이 없음  
+  > **JVM 전체를 죽이는 것 밖에**  
+  * (몇몇 시도)[https://docs.oracle.com/javase/1.5.0/docs/guide/misc/threadPrimitiveDeprecation.html]  
+    > 더 이상 사용되지 않음 : 시도를 했었다는 것만 알아두자    
+    
+* lockInterruptibly  
+  ```
+  Lock(interface) -> lockInterruptibly()
+  Implementation Considerations
+
+  The ability to interrupt a lock acquisition in some implementations may not be possible, 
+  and if possible may be an expensive operation. 
+  The programmer should be aware that this may be the case. 
+  An implementation should document when this is the case.
+
+  An implementation can favor responding to an interrupt over normal method return.
+
+  A Lock implementation may be able to detect erroneous use of the lock, 
+  such as an invocation that would cause deadlock, and may throw an (unchecked) exception in such circumstances. 
+  The circumstances and the exception type must be documented by that Lock implementation.
+  ```  
