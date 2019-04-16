@@ -186,3 +186,76 @@
   such as an invocation that would cause deadlock, and may throw an (unchecked) exception in such circumstances. 
   The circumstances and the exception type must be documented by that Lock implementation.
   ```  
+
+#### [Timeouts](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/philosopher/TimeOutablePhilosopher.java)  
+
+* lock을 얻기위해 대기하는 시간에 제한을 둠  
+  > 영원한 대기 방지  
+* 한계점   
+  * 데드락을 완전히 피하는 게 아닌, 데드락 상태로 빠지는 건 인정하되, 빠져나올 방법을 제공할 뿐임  
+  * **라이브락**  
+    * 모든 스레드가 동시에 타임 아웃을 발생시키면 ?  
+    * 스레드들이 곧 바로, 데드락 상태에 빠지게 됨  
+    * 탈출을 할 수 있긴 하지만, **이 상태가 무한히 반복되지 않는다는 보장이 없음**  
+* 스레드들이 서로 다른 타임아웃 값을 갖도록 해서 완화할 수는 있지만, 궁극적인 해결방법은 아님   
+
+#### [Hand-over-Hand Locking](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/linkedlist/ConcurrentSortedList.java)  
+* 복수의 노드로 구성된 리스트에 삽입  
+  > DB 트랜잭션 처리와 비슷함  
+  > 리스트 : 테이블 / 부분 노드 : 부분 레코드  
+  * 리스트 전체에 대한 잠금  
+  * 삽입에 필요한 리스트의 일정 부분만에 대한 잠금  
+    * 원하는 노드의 양쪽 노드를 잠금  
+    
+* ReentrantLock lock()/unlock() 를 활용해서 잠금 여부 동기화  
+  > 내재된 잠금장치(intrinsic lock)만으로는 한계가 있음  
+  > 구현체 제공  
+  
+* ConcurrentSortedList - size() : 단 하나의 노드에 대한 lock만 갖는 걸 보장하도록 구현  
+  > 스레드 당 복수의 lock을 가질 일이 없으므로 **Global Ordering Rule** 필요 없음  
+  
+#### [Condition Variables](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/philosopher/SignalingPhilosopher.java)  
+* waiting via Condition Variables     
+  * 큐에서 값을 꺼낼 경우 - **큐 안에 적어도 하나 이상의 값이 있을 때까지 대기**  
+  * 버퍼에 값을 넣을 경우 - **버퍼에 필요한 공간이 생길때까지 대기**  
+
+* **Simple Pattern : using Condition Variables effectively**  
+  ~~~java  
+  ReentrantLock lock = new ReentrantLock();
+  Condition condition = lock.newCondition();
+  
+  lock.lock();
+  try {
+    while (  <<waiting-case-condition>>  ) {
+      condition.await();
+      <<using-shared-resource>>  
+    } finally {  lock.unlock();  }
+  }
+  ~~~  
+  * **잠금 장치 획득**  
+    > waiting-case-condition이 깨지길 기다리려면 잠금을 얻는 게 필수  
+    > **특정 조건이 성립하더라도 잠금 장치를 얻지 못하면 의미 없음**  
+    > **잠금 장치에 대한 대기시간 동안 특정 조건이 풀려버림**  
+    
+  * **waiting-case-condition** : **blocking/aSynchronous**   
+    * 대기 조건이 참이면 await()를 호출해 대기  
+      * 기다릴 필요가 없을 때까지 **블로킹되는 작업을 원자적으로 수행**  
+      * 원자적 수행 : 다른 스레드 관점에서 해당 동작이 "완전 수행(1)"/"전혀 수행(0)" 처럼 이분법적으로만 가시되게   
+    * 대기 조건이 거짓이면 : **상태를 공유하는 다른 스레드가 signal()/signalAll() 호출**  
+      * await()는 블로킹을 멈추고, **자동으로 잠금장치를 재 획득**  
+      * await()의 루프 호출 : **리턴 시점에서 대기 조건이 거짓이 될 수 있으므로**  
+      
+* 이전의 식사하는 철학자 예제들과 비교  
+  * 이전 예제 : [GlobalOrderingPhilosopher](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/philosopher/GlobalOrderingPhilosopher.java), [TimeOutablePhilosopher](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/philosopher/TimeOutablePhilosopher.java)  
+    > **모든 철학자가 공유하는 변수(Chopstick)에 대한 잠금**  
+    > 한 번에 한 철학자만 식사 가능  
+  * **동시성 측면에서 병렬로 실행(식사 가능한)될 수 있는 스레드(철학자) 숫자가 늘어남**  
+  
+#### [Atomic Variables](https://github.com/ddingcham/simple-concurrency/blob/10cce22cf9ae876d7ce562a4902704f940502ec1/threadsAndLocks/src/main/java/counting/CountingThread.java)  
+* **Atomic Variables**의 lock 대비 장점 : via java.util.concurrent.atomic  
+  > **non-blocking / lock-free**  
+  * getCount()의 동기화  
+    > 동기화되지 않아 발생한 메모리 가시성 문제를 배제할 수 있게됨     
+  * 데드락 방지  
+    > lock 메커니즘이 개입하지 않으므로 **원자 변수에 대한 동작**이 데드락에 걸리는 경우가 없음  
+
