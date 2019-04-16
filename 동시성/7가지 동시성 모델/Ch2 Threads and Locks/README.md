@@ -259,3 +259,121 @@
   * 데드락 방지  
     > lock 메커니즘이 개입하지 않으므로 **원자 변수에 대한 동작**이 데드락에 걸리는 경우가 없음  
 
+#### Lock Fairness - Provided ReentrantLock  
+```
+public ReentrantLock()
+Creates an instance of ReentrantLock. This is equivalent to using ReentrantLock(false).
+
+public ReentrantLock(boolean fair)
+Creates an instance of ReentrantLock with the given fairness policy.
+Parameters:
+fair - true if this lock should use a fair ordering policy
+```  
+* lock 소유권을 대기 시간이 가장 긴 스레드에게 **우선 제공**  
+  * lock 우선권에 대한 공정성 : **스레드 스케쥴링에 대한 공정성이 아님**     
+    > lock-fairness에 의해서 lock 우선권을 갖는 스레드가 우선 실행된다는 보장이 없음  
+    > 외부 스케쥴링에 종속된 **비결정론적인 부분**임  
+* trade-offs  
+  * Programs using fair locks accessed by many threads may display lower overall throughput (i.e., are slower; often much slower)  
+  * 느리지만, starvation 이슈의 발생을 줄일 수 있음     
+  
+* 정책 선택 : **starvation 이슈로 인한 부작용 비용**과 **lock 우선권을 갖는 스레드로 스케쥴링될 때까지의 비용**을 비교  
+
+#### [ReentrantReadWriteLock](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html#readLock--)  
+> "This class has the following properties" 숙지  
+
+* **동시 읽기는 허용**되지만, 읽기 vs 쓰기 / 쓰기 vs 쓰기에 대한 잠금  
+  > 허용/차단 여부를 확인하게 되므로 부하가 추가됨  
+* ReentrantLock 대비, **다수의 읽기 스레드** / **상대적으로 소수의 쓰기 스레드** 케이스 제어 시 효과적임    
+  * 세부제어가 가능하지만 복잡함  
+* 용도에 따라 transaction isolation level 설정 하듯이 다른 구현체들과 비교해서 선택하면 될 듯  
+
+* sample usages 1 : how to perform **lock downgrading** after updating a cache   
+  > 쓰기 작업 시 잠금 처리  
+  * **쓰기 작업 완료 후 writeLock을 반납하기 전에 readLock으로 Lock Downgrading**  
+    * 여기서 부터는 쓰기 작업에 대한 재진입 허용  
+    * **하지만, 만약 쓰기 작업이 재진입 될 경우, 읽기에 대한 재진입은 허용하지 않도록 구현**  
+  * readLock -> writeLock 으로 Lock Upgrading 은 안됨  
+  
+~~~java  
+class CachedData {
+  Object data;
+  volatile boolean cacheValid;
+  final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+   
+  void processCachedData() {
+    rwl.readLock().lock();
+    if (!cacheValid) {
+      // Must release read lock before acquiring write lock  
+      rwl.readLock().unlock();
+      rwl.writeLock().lock();
+      try {
+        // <Recheck state>  
+        // : another thread might have acquired write lock and changed state before we did  
+        if (!cacheValid) {
+          data = ...
+          cacheValid = true;
+        }
+        // Downgrade by acquiring read lock before releasing write lock
+        rwl.readLock().lock();
+      } finally {
+        rwl.writeLock().unlock(); // Unlock write, still hold read
+      }
+    }
+    
+    try {
+      use(data);
+    } finally {
+      rwl.readLock().unlock();
+    }
+  }
+}
+~~~  
+
+* sample usages 2 : TreeMap that is expected to be large and concurrently accessed(much more read)     
+  * ReentrantReadWriteLocks can be used to improve concurrency in some uses of kinds of Collections   
+  * 강한 일관성   
+~~~java
+class RWDictionary {
+  private final Map<String, Data> m = new TreeMap<String, Data>();
+  private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+  private final Lock r = rwl.readLock();
+  private final Lock w = rwl.writeLock();
+  
+  public Data get(String key) {
+    r.lock();
+    try { return m.get(key); }
+    finally { r.unlock(); }
+  }
+  public String[] allKeys() {
+    r.lock();
+    try { return m.keySet().toArray(); }
+    finally { r.unlock(); }
+  }
+  public Data put(String key, Data value) {
+    w.lock();
+    try { return m.put(key, value); }
+    finally { w.unlock(); }
+  }
+  public void clear() {
+    w.lock();
+    try { m.clear(); }
+    finally { w.unlock(); }
+  }
+}
+~~~  
+
+#### Spurious Wakeup  
+* When waiting upon a [Condition](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/Condition.html), a "spurious wakeup" is permitted to occur    
+  > Java SE java.util.concurrent.locks.Condition -> Implementation Considerations  
+  
+* 스레드가 wait() / await() 상태에서 시그널을 받고, 작업을 수행하기 직전에  
+  * **다른 동시 작업 흐름에 의해 대기 조건이 변경될 가능성이 있음** -> wakeup 되었지만 가짜나 마찮가지임  
+  * 따라서 위의 Condition Variables - Simple Pattern 을 따라야 함    
+    > 대기 조건 검사를 하는 loop 내에서 wait() 호출하는 패턴을 활용함으로써 동시 실행으로 인한 부작용을 예방할 수 있음   
+  
+#### AtomicIntegerFieldUpdater - AtomicInteger  
+
+#### [SignalablePhilosopher via Instrinsic-Lock]()  
+
+#### [ConcurrentSortedList via Single-Lock]()  
