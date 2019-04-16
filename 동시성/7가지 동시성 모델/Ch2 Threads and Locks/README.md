@@ -373,7 +373,14 @@ class RWDictionary {
     > 대기 조건 검사를 하는 loop 내에서 wait() 호출하는 패턴을 활용함으로써 동시 실행으로 인한 부작용을 예방할 수 있음   
   
 #### AtomicIntegerFieldUpdater - AtomicInteger  
+* [java.util.concurrent.atomic.AtomicIntegerFieldUpdater\<T\>](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicIntegerFieldUpdater.html)  
+  > **리플렉션 기반으로 객체를 원자적으로 취급할 수 있도록 래핑해주는 유틸**  
+  > **비원자적인 기존 정의를 유지하면서, 원자적 작업이 필요한 특정 상황에서만 래핑해서 활용**  
+* [Why and when to use AtomicIntegerFieldUpdater](https://stackoverflow.com/questions/17153572/why-and-when-to-use-atomicintegerfieldupdater)  
+  > if you are creating a lot of objects and you don't want to create a lot of AtomicXXX objects, you can create a static AtomicIntegerFieldUpdater object and let it be shared between all the objects  
+* [javamex - Atomic field updaters](https://www.javamex.com/tutorials/synchronization_concurrency_7_atomic_updaters.shtml)  
+  > In truth, these wrappers are used inside the Java class libraries, but probably aren't used much in user code.  
 
-#### [SignalablePhilosopher via Instrinsic-Lock]()  
+#### [IntrinsicSignalingPhilosopher]()  
 
-#### [ConcurrentSortedList via Single-Lock]()  
+#### [Hand-over-Hand Locking과 SingleLock 비교](https://github.com/ddingcham/simple-concurrency/commit/ecf02d3fc0fd2bf5e86742bcd19c6278d8c7de20)  
