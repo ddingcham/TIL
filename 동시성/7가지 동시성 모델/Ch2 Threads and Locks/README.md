@@ -381,6 +381,10 @@ class RWDictionary {
 * [javamex - Atomic field updaters](https://www.javamex.com/tutorials/synchronization_concurrency_7_atomic_updaters.shtml)  
   > In truth, these wrappers are used inside the Java class libraries, but probably aren't used much in user code.  
 
-#### [IntrinsicSignalingPhilosopher]()  
+#### [IntrinsicSignalingPhilosopher](https://github.com/ddingcham/simple-concurrency/commit/314591acff212b1662e17c980c2b6b73d7f46886)  
+> 철학자들이 병렬로 먹는 것에 대한 불변식은 "좌/우 철학자들이 안먹을 때 먹을 수 있다" 인데,  
+> 테이블 전체에서 한 명만 먹을 수 있게 까지만 구현함 ....  
+> 내재적인 락 기반으로도 위 불변식을 정확하게 구현하게 있는 지 더 찾아봐야 함  
+> [관련 issue](https://github.com/ddingcham/simple-concurrency/issues)  
 
 #### [Hand-over-Hand Locking과 SingleLock 비교](https://github.com/ddingcham/simple-concurrency/commit/ecf02d3fc0fd2bf5e86742bcd19c6278d8c7de20)  
