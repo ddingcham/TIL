@@ -37,7 +37,7 @@
     
 * [multiple locks](https://github.com/ddingcham/simple-concurrency/commit/c0ae09a42371c0f6114eb2ca668b656055408cdc)   
   * 엄격한 동기화의 문제점  
-    * 병렬적 실행을 위한 Thread 활용이 의미 없어짐  
+    * 병렬적 실행(처럼 추상화된 -> 엄격하게는 동시성임)을 위한 Thread 활용이 의미 없어짐  
     * **데드락 발생 가능성**  
       > complexity  
       > left/right 에 대한 순환 락  
