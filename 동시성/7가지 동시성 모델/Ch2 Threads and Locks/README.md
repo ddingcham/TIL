@@ -388,3 +388,93 @@ class RWDictionary {
 > [관련 issue](https://github.com/ddingcham/simple-concurrency/issues)  
 
 #### [Hand-over-Hand Locking과 SingleLock 비교](https://github.com/ddingcham/simple-concurrency/commit/ecf02d3fc0fd2bf5e86742bcd19c6278d8c7de20)  
+
+## Day3 : deep in java.util.concurrent  
+> providing concurrent-structure/utility (**general/high-performance/**)  
+
+### [Implementation via Thread-Pool](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/test/java/server/EchoServerTest.java)   
+
+* 1(request) on 1(new Thread) 구조의 문제  
+  * 요청이 들어올 때마다 스레드 생성 비용 소모  
+  * 과다한 스레드 숫자(request handling)로 인한 영향(시스템 전체)  
+
+* **Thread-Pool**   
+  * EchoServerTest - java.util.concurrent.ExecutorService  
+    ~~~java  
+    @Test
+    public void echo_server_connect_by_thread_pool() throws InterruptedException {
+      final int threadPoolSize = 5;
+      // threadPoolSize = Runtime.getRuntime().availableProcessors() * 2;
+
+      serverOpen(new ConnectStrategy() {
+         private ExecutorService executor = Executors
+                 .newFixedThreadPool(threadPoolSize);
+
+         @Override
+         public void execute(Runnable handler) {
+             executor.execute(handler);
+         }
+      });
+    ~~~  
+    > 스레드 풀 내의 유휴 스레드가 있을 때까지 요청은 큐에서 대기  
+  * 효용성  
+    * 요청 당 스레드 생성 비용 부담 감소  
+    * 높은 부하 상황에서도 지속적인 작업 수행 가능  
+    * 모든 요청을 빠르게 처리하진 못하지만, **적어도 요청의 일부는 계속 서비스할 수 있음**(높은 부하 상황에서도)  
+    
+  * 스레드 풀 사이즈 가이드라인  
+    > threadPoolSize = Runtime.getRuntime().availableProcessors() * 2  
+    * 스레드의 IO-bound / CPU-bound 여부  
+    * 머신 내에서 동시에 수행되는 작업의 유형  
+    * 일반적인 선택  
+      * **IO-bound : 코어보다 많은 수 설정**  
+      * **CPU(연산)-bound : 코어수와 동일하게**  
+    * 일반론을 베이스로 해서 부하 테스트/측정을 통해 개선  
+    
+### [Producer-Consumer Pattern](https://github.com/ddingcham/simple-concurrency/tree/master/threadsAndLocks/src/main/java/countingWord)  
+* overview  
+  ~~~java  
+  public void execute(BlockingQueue<Page> channel, WordCounters counters, WikiReader reader) throws InterruptedException {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        for(WordCounter counter : counters) {
+            executor.execute(counter);
+        }
+        Thread parserThread = new Thread(new PageParser(channel, reader));
+        parserThread.start();
+        parserThread.join();
+        executor.shutdown();
+        executor.awaitTermination(timeout, timeUnit);
+    }
+  ~~~  
+  * entity  
+    * producer (parserThread-PageParser)  
+      > 처리를 위한 값 생성 / Page  
+    * consumer (WordCounter)  
+      > Page 에 대한 데이터 처리 / Word Count  
+    * channel (channel-Queue)  
+      > producer-consumer 간 통신 수단  
+  * producer는 channel을 통해 consumer들의 처리 속도보다 빠르게 생성  
+  * 복수의 consumer들이 시간이 오래걸리는 처리를 동시 처리  
+  
+  * channel - BlockingQueue  
+    * channel이 꽉찾을 때 - producer의 다음 테스크 생성을 블로킹  
+    * channel이 비어있을 때 - consumer가 다음 테스크를 요청하면 테스트가 생길 때까지 consumer는 블로킹  
+
+  * 토큰 기반으로 종료 동기화 - Page.POISON_PILL  
+
+#### 결과에 대한 Consumer들 간 동기화 전략  
+* [performance-test](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/test/java/countingWord/integration/CountingWordTest.java)  
+* [Locking Global_Storage(Serialization - consumer's task-IO\)](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/countingWord/counter/CounterViaLock.java)  
+  > **지나친 경합**으로 인해 Single Consumer 모델이 오히려 더 빠름  
+  > **Consumer의 실제 작업 수행시간보다 lock 대기 시간이 더 길어져 버림**  
+* [Global_Storage\(ConcurrentStructure // java.util.concurrent\)](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/countingWord/counter/CounterViaConcurrentCollection.java)  
+  > 동시적 접근을 지원하는 자료구조 구현체 - **lock striping**  
+* [Consumer_Local_Storage ---batch---> Global_Storage\(ConcurrentStructure\)](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/countingWord/counter/CounterViaBatchMode.java)  
+  > 종료 토큰 발행될 때까지 **각 Consumer의 작업결과를 local 스토리지에 저장**  
+  > 종료 토큰 발행 후 **각 Consumer의 결과를 global 스토리지에 병합\(배치 처리\)**   
+
+### Summary  
+* 스레드 생성 대신 스레드 풀 활용  
+* CopyOnWriteList 기반으로 리스너 관리  
+* BlockingQueue 기반의 Consumer-Producer 패턴  
+* Concurrent Collection 활용  
