@@ -478,3 +478,78 @@ class RWDictionary {
 * CopyOnWriteList 기반으로 리스너 관리  
 * BlockingQueue 기반의 Consumer-Producer 패턴  
 * Concurrent Collection 활용  
+
+### Java ForkJoinPool / ThreadPool  
+
+#### 일반적인 ThreadPool 활용  
+> [JAVA SE java.util.concurrent.Executors](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executors.html)  
+> [JAVA SE java.util.concurrent.ThreadPoolExecutor](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html)  
+* Executor Framework (작업 등록과 작업 실행 분리 표준) - Executors  
+  * Executor Framework - 설정 기반의 Execution policy  
+    > 작업 등록과 실행의 분리를 통해서, **유연한 실행 정책 관리 가능**  
+    > 등록에 대한 건 그대로 두되, 실행 정책에 대한 것만 변경 (고려 대상 축소)  
+    * 작업을 실행할 스레드 지정  
+    * 작업 실행 우선순위 (FIFO / LIFO 등 다양한 지원)  
+    * **병렬 실행할 동시 작업 갯수**  
+    * 큐에 대기할 최대 작업 갯수  
+    * 시스템 부하로 인해 모든 작업을 수행할 수 없는 경우, 포기할 작업 선정 규칙 설정
+    * 시스템 부하로 인해 모든 작업을 수행할 수 없는 경우, 요청 클라이언트에 대한 응답 방식 설정  
+    * 라이프 사이클 관리 : 실행 직전 / 직후 등의 라이프 사이클에서의 콜백 등  
+    
+
+  * Executors overview : ThreadPool 관련 유틸       
+    > 설정 기반 ThreadPool(ExecutorService) 생성  
+    > Pool에 추가할 Thread를 생성할 수 있는 ThreadFactory  
+    > Closure (Callable) 기반의 실행할 태스크 생성  
+    
+  * 지원하는 ThreadPool 정책 개요    
+    > see also : [12bme 블로그 : Executor 프레임워크](https://12bme.tistory.com/359)  
+    * FixedThreadPool - newFixedThreadPool  
+      > Creates a thread pool that reuses a fixed number of threads operating off a shared unbounded queue  
+    * ScheduledThreadPool - newScheduledThreadPool   
+      > Creates a thread pool that can schedule commands to run after a given delay, or to execute periodically.  
+    * CachedThreadPool - newCachedThreadPool   
+      > Creates a thread pool that creates new threads as needed, but will reuse previously constructed threads when they are available.  
+    * WorkStealingPool - newWorkStealingPool  
+      > Creates a work-stealing thread pool using all available processors as its target parallelism level.  
+      > with parallelism : the targeted parallelism level  
+      > 아래 따로 뺴서 좀더 자세히 다룰 것  
+
+#### ForkJoinPool  
+> [JAVA SE java.util.concurrent.ForkJoinPool](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html)  
+> A ForkJoinPool provides the entry point for submissions from non-ForkJoinTask clients, as well as management and monitoring operations.  
+
+* ForkJoinPool overview  
+  > see also : [HAMA 블로그 : 쓰레드풀과 ForkJoinPool](https://hamait.tistory.com/612)  
+  > 분할 정복 / 비슷한 방식 예시 : [CounterViaBatchMode](https://github.com/ddingcham/simple-concurrency/blob/master/threadsAndLocks/src/main/java/countingWord/counter/CounterViaBatchMode.java)    
+  * ![](https://t1.daumcdn.net/cfile/tistory/2628974A57BD30A21D)  
+    * Fork : 작업 분담 // **Work Stealing 기법**  
+    * Join : 작업 결과물 취합  
+      > Fork된 작업들(local storage 에 저장하는 카운팅 작업) 간  
+      > Join(global storage 에 local storage 값 병합)을 배치처리 한 것이 CounterViaBatchMode 느낌임  
+    
+* **Work Stealing 기법 (WorkStealingPool)**  
+  > [Doug Lea : A Java Fork/Join Framework](http://gee.cs.oswego.edu/dl/papers/fj.pdf)  
+  
+  * deck - (queue supporting enqueue / dequeue / + pop(LIFO) )  
+    * 모든 Consumer(Thread)들은 각각의 deck(Task 대기큐)을 갖음  
+    * Producer 는 분배 로직에 의해 각 Consumer의 deck에 task 분배 (enqueue)  
+    * Consumer 들은 자신의 deck에 Task가 있는 경우 꺼내서 처리 (dequeue)   
+    * **특정 Consumer의 deck에 Task가 몰려있는 경우를 대비** (pop)  
+      * 자신의 deck에 Task가 없는 경우 Consumer 는 다른 Consumer의 deck을 확인  
+      * 다른 Consumer의 deck에 Task가 있는 경우 Work Stealing (pop)  
+        * **Work Stealing Race Condition**  
+          * 해당 deck의 주인 Consumer와 훔치는 Consumer 간 경합 상황은 적음  
+            > 하나만 있는 경우에만 경쟁 상태가 되므로  
+            > 주인은 앞에서 꺼내고, 훔치는 건 뒤에서 꺼냄 (deck의 내부 노드에 대한 부분 lock)  
+          * **훔치러 들어온 Consumer들 간의 경합이 주요 이슈**  
+            > 주인이 아닌 Consumer들은 모두 pop              
+  
+### CountDownLatch / CyclicBarrier  
+* CountDownLatch  
+* CyclicBarrier  
+* 선택  
+
+### 암달의 법칙(Amdahl's law)  
+
+## ThreadsAndLocks 마무리  
