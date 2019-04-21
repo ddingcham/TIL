@@ -546,10 +546,120 @@ class RWDictionary {
             > 주인이 아닌 Consumer들은 모두 pop              
   
 ### CountDownLatch / CyclicBarrier  
-* CountDownLatch  
-* CyclicBarrier  
-* 선택  
 
-### 암달의 법칙(Amdahl's law)  
+#### java.util.concurrent.CountDownLatch  
+> A synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes.  
 
-## ThreadsAndLocks 마무리  
+* Sample usages  
+  ~~~java
+  class Driver {
+    psvm throws InterruptedException {
+      CountDownLatch startSignal = new CountDownLatch(1);
+      CountDownLatch doneSignal = new CountDownLatch(N);
+      
+      for (int i = 0; i < N; ++i) new Thread(new Worker(startSignal, doneSignal)).start();
+      
+      doSomethingElse();  // don't let run yet
+      startSignal.countDown();  // let all threads proceed
+      doSomethingElse();
+      doneSignal.await();  // wait for all to finish  
+    }
+  }
+  
+  @RequiredArgumentConstructor
+  class Worker implement Runnable {
+    private final CountDownLatch startSignal;
+    private final CountDownLatch doneSignal;
+    
+    public void run() {
+      try {
+        startSignal.await();
+        doWork();
+        doneSignal.countDown();
+      } catch (InterruptedException interrupted) {}
+    }
+    
+    void doWork() {...}
+  }
+  ~~~  
+  * first CountDownLatch  
+    > start signal that prevents any worker from proceeding **until the driver is ready for them to proceed**  
+  * second CountDownLatch  
+    > completion signal that allows the driver **to wait until all workers have completed**  
+    
+* dividing a problem into N parts  
+```
+Another typical usage would be to divide a problem into N parts, 
+describe each part with a Runnable that executes that portion and counts down on the latch, 
+and queue all the Runnables to an Executor. 
+
+When all sub-parts are complete, the coordinating thread will be able to pass through await.
+```  
+**When threads must repeatedly count down in this way, instead use a CyclicBarrier**
+
+#### java.util.concurrent.CyclicBarrier    
+```
+A CountDownLatch is initialized with a given count. 
+The await methods block until the current count reaches zero due to invocations of the countDown() method, 
+after which all waiting threads are released and any subsequent invocations of await return immediately. 
+```  
+> This is a one-shot phenomenon -- the count cannot be reset.  
+> **If you need a version that resets the count, consider using a CyclicBarrier.**  
+    
+* **involving a fixed sized party of threads that must occasionally wait for each other.**  
+
+* Sample usages  
+  > **using a barrier in a parallel decomposition design**  
+  ~~~java  
+  class Solver {
+    final int N;
+    final float[][] data;
+    final CyclicBarrier barrier;
+    
+    class Worker implements Runnable {
+      int myRow;
+      Worker(int row) {myRow = row;}
+      public void run() {
+        while (!done()) {
+          processRow(myRow);
+          try {
+            barrier.await();
+          } ... // catch something
+        }
+      }
+    }
+    public Solver(float[][] matrix) {
+      data = matrix;
+      N = matrix.length;
+      Runnable barrierAction = new Runnable() {
+        public void run() { mergeRows(...); }
+      };
+      barrier = new CyclicBarrier(N, barrierAction);
+      
+      List<Thread> threads = new ArrayList<>(N);
+      for (int i = 0; i < N; i++) {
+        Thread thread = new Thread(new Worker(i));
+        threads.add(thread);
+        thread.start();
+      }
+      
+      // wait until done
+      for (Thread thread : threads) thread.join();
+    }
+  }
+  
+
+  ~~~  
+
+
+### [암달의 법칙\(Amdahl's law\)](https://en.wikipedia.org/wiki/Amdahl%27s_law)  
+> 병렬화를 통한 성능 개선의 한계 **1/1-p = 20**  
+> 최대 20배  
+```
+Evolution according to Amdahl's law of the theoretical 
+speedup is latency of the execution of a program in function of the number of processors executing it. 
+The speedup is limited by the serial part of the program. 
+
+For example, if 95% of the program can be parallelized, 
+the theoretical maximum speedup using parallel computing would be 20 times.
+```
